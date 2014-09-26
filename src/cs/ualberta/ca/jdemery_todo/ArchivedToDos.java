@@ -1,3 +1,12 @@
+/*
+ * Class used to show archived tweets, and provides options for the user to
+ * remove/delete/email to-do items.
+ * 
+ * Mirrors the layout of MainActivity, and resuses some of the same code.
+ * 
+ * License can be located at the top of MainActivity.java
+ */
+
 package cs.ualberta.ca.jdemery_todo;
 
 import java.util.ArrayList;

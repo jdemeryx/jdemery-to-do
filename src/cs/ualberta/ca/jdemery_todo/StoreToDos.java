@@ -1,3 +1,15 @@
+/*
+ * Class used to store & load the data, whenever the data changes.
+ * Stores/Loads both active ToDo Items, as well as Archived items.
+ * Uses two different files to store this data, one for currently
+ * tracked ToDos, the other for archived items.
+ * 
+ * Basic functionality inspired by the Lab 3 assignment, as well as
+ * java doc descriptions.
+ * 
+ * License can be located at the top of MainActivity.java
+ */
+
 package cs.ualberta.ca.jdemery_todo;
 
 import java.io.BufferedReader;

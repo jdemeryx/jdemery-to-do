@@ -23,4 +23,20 @@ public class ToDo {
 		return ToDoMsg;
 	}
 	
+	public void isChecked(Boolean bool) {
+		isChecked = bool;
+	}
+	
+	public void isSelected(Boolean bool) {
+		isSelected = bool;
+	}
+
+	public Boolean getIsChecked() {
+		return isChecked;
+	}
+
+	public Boolean getIsSelected() {
+		return isSelected;
+	}
+	
 }

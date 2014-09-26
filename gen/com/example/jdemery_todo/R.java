@@ -36,8 +36,8 @@ public final class R {
         public static final int archivedToDoText=0x7f080007;
         public static final int deleteButton=0x7f080001;
         public static final int emailButton=0x7f080002;
-        public static final int toDoCheckBox=0x7f08000d;
-        public static final int toDoItemView=0x7f08000c;
+        public static final int toDoCheckBox=0x7f08000c;
+        public static final int toDoItemView=0x7f08000d;
         public static final int todoListView=0x7f080006;
         public static final int viewArchivedItems=0x7f08000f;
         public static final int viewToDoList=0x7f080000;
