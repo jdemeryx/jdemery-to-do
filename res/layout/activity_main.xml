@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/emailButton"
         android:text="@string/to_do_list"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -26,6 +27,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="17dp"
+        android:layout_toRightOf="@+id/emailButton"
         android:text="@string/delete" />
 
     <Button
@@ -35,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/deleteButton"
         android:layout_alignBottom="@+id/deleteButton"
-        android:layout_toLeftOf="@+id/deleteButton"
+        android:layout_toRightOf="@+id/archiveButton"
         android:text="@string/email" />
 
     <Button
@@ -45,7 +47,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/emailButton"
         android:layout_alignBottom="@+id/emailButton"
-        android:layout_toLeftOf="@+id/emailButton"
         android:layout_toRightOf="@+id/addButton"
         android:text="@string/archive" />
 
@@ -80,5 +81,14 @@
         android:layout_below="@+id/viewToDoList" >
 
     </ListView>
+
+    <TextView
+        android:id="@+id/counters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/viewToDoList"
+        android:layout_toRightOf="@+id/emailButton"
+        android:text="TextView" />
 
 </RelativeLayout>

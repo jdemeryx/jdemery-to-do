@@ -55,4 +55,13 @@
 
     </ListView>
 
+    <TextView
+        android:id="@+id/archivedCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/archivedToDoText"
+        android:layout_toRightOf="@+id/archiveEmailButton"
+        android:text="TextView" />
+
 </RelativeLayout>

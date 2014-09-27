@@ -34,6 +34,14 @@
             android:name="cs.ualberta.ca.jdemery_todo.DeleteToDoActivity"
             android:label="@string/title_activity_delete_to_do" >
         </activity>
+        <activity
+            android:name="cs.ualberta.ca.jdemery_todo.UnArchiveActivity"
+            android:label="@string/title_activity_un_archive" >
+        </activity>
+        <activity
+            android:name="cs.ualberta.ca.jdemery_todo.DeleteArchiveActivity"
+            android:label="@string/title_activity_delete_archive" >
+        </activity>
     </application>
 
 </manifest>

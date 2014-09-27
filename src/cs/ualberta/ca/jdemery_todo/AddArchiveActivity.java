@@ -1,3 +1,11 @@
+/*
+ * This activity allows the user to move a ToDo item from the active view
+ * into the archived view, and then deletes the item from the active view.
+ * Ensures that the right counters are shown, and kept up-to-date. 
+ * 
+ * 
+ */
+
 package cs.ualberta.ca.jdemery_todo;
 
 import java.util.ArrayList;
@@ -19,21 +27,26 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class AddArchiveActivity extends Activity {
+	//Private variables to help do the storing of information required to swap
 	private ListView savedToDos;
 	private ArrayList<ToDo> toDos;
 	private ArrayList<ToDo> toDosA;
 	private ArrayAdapter<ToDo> adapter;
 	private ToDoModel mod;
 	private ArchivedModel modA;
-	
+
+	//Initializes the main activity view, allowing me to display the required
+	//Info. setUpButtons allows the onClickListeners to be initialized.
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_archive);
-		savedToDos = (ListView) findViewById(R.id.archiveAddToDoList);
+		savedToDos = (ListView) findViewById(R.id.mainDeleteToDoList);
 		setUpButtons();
 	}
-	
+
+	//Start of the UI creation, populates holder variables for use later on.
+	//Also opted to use a few more variables to cut down on long ref. calls
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -41,43 +54,28 @@ public class AddArchiveActivity extends Activity {
 		toDos = mod.getToDos();
 		adapter = new ArrayAdapter<ToDo>(this, R.layout.to_do_view, toDos);
 		savedToDos.setAdapter(adapter);
-		
 		modA = ArchivedModel.get(getApplicationContext());
 		toDosA = modA.getToDos();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.add_archive, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
+	/*
+	 * Creates an onClickListener to track where the user is clicking on the list
+	 * and contains the logic to ensure the ToDo gets properly added to the archived
+	 * to-do list, and then removed from the active list. Ensures to notify other
+	 * aspects of the program that the dataset has changed, and to re-pull it.
+	 */
 	private void setUpButtons() {
 		savedToDos.setOnItemClickListener(new OnItemClickListener () {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-	
+
 				modA.addToDos(mod.getToDo(position));
 				ToDoModel.get(getApplicationContext()).removeToDos(position);
-				Toast.makeText(AddArchiveActivity.this, "Click position "+position +" ", Toast.LENGTH_SHORT).show();	
-				savedToDos.invalidateViews();
+				toDos = ToDoModel.get(getApplicationContext()).getToDos();
+				adapter = new ArrayAdapter<ToDo>(AddArchiveActivity.this, R.layout.to_do_view, toDos);
+				savedToDos.setAdapter(adapter);
 				adapter.notifyDataSetChanged();
-				ToDoModel.get(getApplicationContext()).save();
-				ArchivedModel.get(getApplicationContext()).save();
 			}       	
-        });
+		});
 	}
 }

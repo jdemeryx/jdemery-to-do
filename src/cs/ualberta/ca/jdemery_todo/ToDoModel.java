@@ -59,7 +59,8 @@ public class ToDoModel {
 			checkedBoxes--;
 		if (aToDo.get(i).getIsSelected())
 			selectedToDos--;
-		aToDo.remove(i);
+		aToDo.remove(aToDo.get(i));
+		totalToDos--;
 		save();
 		return getToDos();
 	}

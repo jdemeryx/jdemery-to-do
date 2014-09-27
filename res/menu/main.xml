@@ -8,5 +8,8 @@
         android:showAsAction="never"
         android:title="@string/action_settings"/>
     <item android:id="@+id/viewArchivedItems" android:title="View Archived To-Dos" android:onClick="viewArchivedItems"></item>
+    <item android:id="@+id/emailALLToDos" android:onClick="emailALLToDos" android:title="Email ALL ToDos"></item>
+    <item android:id="@+id/emailCurrentToDos" android:onClick="emailCurrentToDos" android:title="Email Current ToDos"></item>
+    <item android:id="@+id/emailArcToDos" android:onClick="emailArchivedToDos" android:title="Email Archived ToDos"></item>
 
 </menu>

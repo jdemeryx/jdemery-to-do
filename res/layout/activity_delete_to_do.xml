@@ -18,7 +18,7 @@
         android:text="@string/delete_to_do" />
 
     <ListView
-        android:id="@+id/archiveAddToDoList"
+        android:id="@+id/mainDeleteToDoList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/deleteToDoItemsButton"

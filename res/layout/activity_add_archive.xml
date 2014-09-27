@@ -19,7 +19,7 @@
         android:text="@string/add_archive" />
 
     <ListView
-        android:id="@+id/archiveAddToDoList"
+        android:id="@+id/mainDeleteToDoList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/addArchives"

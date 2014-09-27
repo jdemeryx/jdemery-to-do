@@ -9,12 +9,16 @@
     <string name="archive">Archive</string>
     <string name="email">Email</string>
     <string name="to_do_list">To Do List</string>
-    <string name="archivedToDo">Archived To Do List</string>
+    <string name="archivedToDo">Archived To Dos</string>
     <string name="archivedReturn">Return</string>
     <string name="title_activity_archived_to_dos">Archived To Dos</string>
     <string name="title_activity_add_archive">AddArchiveActivity</string>
     <string name="add_archive">Add To Dos To Archive</string>
     <string name="title_activity_delete_to_do">DeleteToDoActivity</string>
     <string name="delete_to_do">Delete To Dos</string>
+    <string name="title_activity_un_archive">UnArchiveActivity</string>
+    <string name="unArchive">Unarchive To Do</string>
+    <string name="deleteArchive">Delete archived To Do</string>
+    <string name="title_activity_delete_archive">DeleteArchiveActivity</string>
 
 </resources>
