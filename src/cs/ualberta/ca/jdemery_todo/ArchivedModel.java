@@ -14,29 +14,30 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
-public class ToDoModel {
-	private static ToDoModel sToDoModel;
+public class ArchivedModel {
+	private static ArchivedModel aToDoModel;
 	private Context appContext;
 	private ArrayList<ToDo> aToDo;
 	private StoreToDos fileOp = new StoreToDos();
 	private Integer checkedBoxes = 0;
-	private Integer selectedToDos = 0;
+	private Integer selectedToDos= 0;
 	private Integer totalToDos = 0;
 	
-	private ToDoModel(Context context) {
+	private ArchivedModel(Context context) {
 		appContext = context;
 		
-		aToDo = fileOp.loadToDos(appContext);
+		aToDo = fileOp.loadArchivedToDos(appContext);
     	if (aToDo == null) aToDo = new ArrayList<ToDo>();
     	countChecked();
     	totalToDos = aToDo.size();
+    	save();
 	}
 	
-	public static ToDoModel get(Context c) {
-		if (sToDoModel == null) {
-			sToDoModel = new ToDoModel(c.getApplicationContext());
+	public static ArchivedModel get(Context c) {
+		if (aToDoModel == null) {
+			aToDoModel = new ArchivedModel(c.getApplicationContext());
 		}
-		return sToDoModel;
+		return aToDoModel;
 	}
 	
 	public ArrayList<ToDo> getToDos() {
@@ -102,6 +103,6 @@ public class ToDoModel {
 	}
 	
 	public void save() {
-		fileOp.saveToDos(aToDo, appContext);
+		fileOp.saveArchivedToDos(aToDo, appContext);
 	}
 }

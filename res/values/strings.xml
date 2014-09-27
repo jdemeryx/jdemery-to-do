@@ -12,5 +12,9 @@
     <string name="archivedToDo">Archived To Do List</string>
     <string name="archivedReturn">Return</string>
     <string name="title_activity_archived_to_dos">Archived To Dos</string>
+    <string name="title_activity_add_archive">AddArchiveActivity</string>
+    <string name="add_archive">Add To Dos To Archive</string>
+    <string name="title_activity_delete_to_do">DeleteToDoActivity</string>
+    <string name="delete_to_do">Delete To Dos</string>
 
 </resources>

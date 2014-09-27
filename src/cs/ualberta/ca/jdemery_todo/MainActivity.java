@@ -21,24 +21,32 @@ package cs.ualberta.ca.jdemery_todo;
 import java.util.ArrayList;
 import com.example.jdemery_todo.R;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 public class MainActivity extends Activity {
+
 	private EditText toDoText;
 	private ListView savedToDos;
 	private ArrayList<ToDo> toDos;
 	private ArrayAdapter<ToDo> adapter;
-	private StoreToDos fileOp = new StoreToDos();
+	private ToDoModel mod;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,25 +55,23 @@ public class MainActivity extends Activity {
 		savedToDos = (ListView) findViewById(R.id.todoListView);
 		setUpButtons();
 	}
+	
 	@Override
 	public void onStart() {
 		super.onStart();
-		//toDos = fileOp.loadToDos(getApplicationContext());
-		//if (toDos == null) toDos = new ArrayList<ToDo>();
-		toDos = ToDoModel.get(getApplicationContext()).getToDos();
+		mod = ToDoModel.get(getApplicationContext());
+		toDos = mod.getToDos();
 		adapter = new ArrayAdapter<ToDo>(this, R.layout.to_do_view, toDos);
 		savedToDos.setAdapter(adapter);
 	}
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -77,11 +83,30 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 	public void viewArchivedItems(MenuItem menu) {
 		Toast.makeText(this, "View Archived Items", Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent(MainActivity.this, ArchivedToDos.class);
 		startActivity(intent);
+		adapter.notifyDataSetChanged();
 	}
+	
+	public void addArchiveItems() {
+		Intent intent = new Intent(MainActivity.this, AddArchiveActivity.class);
+		startActivity(intent);
+		adapter.notifyDataSetChanged();
+	}
+	
+	public void deleteToDoItems() {
+		Intent intent = new Intent(MainActivity.this, DeleteToDoActivity.class);
+		startActivity(intent);
+		adapter.notifyDataSetChanged();
+	}
+	
+	public void emailToDoItems() {
+		adapter.notifyDataSetChanged();
+	}
+	
 	private void setUpButtons() {
 		Button addToDo = (Button) findViewById(R.id.addButton);
 		Button archiveToDo = (Button) findViewById(R.id.archiveButton);
@@ -91,16 +116,15 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = toDoText.getText().toString();
-				//toDos.add(new ToDo(text));
-				toDos = ToDoModel.get(getApplicationContext()).addToDos(new ToDo(text));
+				toDos = mod.addToDos(new ToDo("[   ] "+text));
 				adapter.notifyDataSetChanged();
-				fileOp.saveToDos(toDos, getApplicationContext());
 			}
 		});
 		archiveToDo.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				Toast.makeText(MainActivity.this, "Archive", Toast.LENGTH_SHORT).show();
+				addArchiveItems();
 			}
 		});
 		emailToDo.setOnClickListener(new View.OnClickListener() {
@@ -113,17 +137,25 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				Toast.makeText(MainActivity.this, "Delete", Toast.LENGTH_SHORT).show();
+				deleteToDoItems();
 			}
 		});
         savedToDos.setOnItemClickListener(new OnItemClickListener () {
-
-			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Toast.makeText(MainActivity.this, "Click position "+position, Toast.LENGTH_SHORT).show();
-				
-			}
-        	
+	
+				if (!mod.getToDo(position).getIsChecked()) {
+					mod.setChecked(true, position);
+					mod.getToDo(position).setMsg(mod.getToDo(position).getMsg().replace("[   ]", "[ X ]"));
+				}
+				else	{
+					mod.setChecked(false, position);
+					mod.getToDo(position).setMsg(mod.getToDo(position).getMsg().replace("[ X ]", "[   ]"));
+				}
+				Toast.makeText(MainActivity.this, "Click position "+position +" ", Toast.LENGTH_SHORT).show();	
+				adapter.notifyDataSetChanged();
+				mod.save();
+			}       	
         });
 	}
 }

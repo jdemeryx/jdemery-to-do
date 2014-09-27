@@ -8,6 +8,8 @@ public class ToDo {
 	public ToDo(String msg) {
 		super();
 		ToDoMsg = msg;
+		isChecked = false;
+		isSelected = false;
 	}
 	
 	public String getMsg() {

@@ -17,34 +17,36 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ArchivedToDos extends Activity {
 	private ListView savedToDos;
 	private ArrayList<ToDo> toDos;
 	private ArrayAdapter<ToDo> adapter;
-	private StoreToDos fileOp = new StoreToDos();
-	
+	private ArchivedModel mod2;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.archived_todos);
-        savedToDos = (ListView) findViewById(R.id.archivedListView);
-        setUpButtons();
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.archived_todos);
+		savedToDos = (ListView) findViewById(R.id.archivedListView);
+		setUpButtons();
 	}
-	
-    @Override
-    public void onStart() {
-    	super.onStart();
-    	toDos = fileOp.loadArchivedToDos(getApplicationContext());
-    	if (toDos == null) toDos = new ArrayList<ToDo>();
-    	adapter = new ArrayAdapter<ToDo>(this, R.layout.to_do_view, toDos);
-    	savedToDos.setAdapter(adapter);
-    }
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		mod2 = ArchivedModel.get(getApplicationContext());
+		toDos = mod2.getToDos();
+		adapter = new ArrayAdapter<ToDo>(this, R.layout.to_do_view, toDos);
+		savedToDos.setAdapter(adapter);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,39 +66,50 @@ public class ArchivedToDos extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void setUpButtons() {
-        Button archivedReturnToDo = (Button) findViewById(R.id.archiveReturnButton);
-        Button archivedEmailToDo = (Button) findViewById(R.id.archiveEmailButton);
-        Button archivedDeleteToDo = (Button) findViewById(R.id.archiveDeleteButton);
-        
-        archivedReturnToDo.setOnClickListener(new View.OnClickListener() {
+		Button archivedReturnToDo = (Button) findViewById(R.id.archiveReturnButton);
+		Button archivedEmailToDo = (Button) findViewById(R.id.archiveEmailButton);
+		Button archivedDeleteToDo = (Button) findViewById(R.id.archiveDeleteButton);
+
+		archivedReturnToDo.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
-				
-				adapter.notifyDataSetChanged();
-				fileOp.saveArchivedToDos(toDos, getApplicationContext());
+				Toast.makeText(ArchivedToDos.this, "Return", Toast.LENGTH_SHORT).show();
 			}
 		});
-        
-       
-        archivedEmailToDo.setOnClickListener(new View.OnClickListener() {
+
+
+		archivedEmailToDo.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				Toast.makeText(ArchivedToDos.this, "Email", Toast.LENGTH_SHORT).show();
 
 			}
 		});
-        
-        archivedDeleteToDo.setOnClickListener(new View.OnClickListener() {
+
+		archivedDeleteToDo.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
-
-				adapter.notifyDataSetChanged();
-				fileOp.saveArchivedToDos(toDos, getApplicationContext());
-				
+				Toast.makeText(ArchivedToDos.this, "Delete", Toast.LENGTH_SHORT).show();
 			}
 		});
-		
+		savedToDos.setOnItemClickListener(new OnItemClickListener () {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				if (!mod2.getToDo(position).getIsChecked()) {
+					mod2.setChecked(true, position);
+					mod2.getToDo(position).setMsg(mod2.getToDo(position).getMsg().replace("[   ]", "[ X ]"));
+				}
+				else	{
+					mod2.setChecked(false, position);
+					mod2.getToDo(position).setMsg(mod2.getToDo(position).getMsg().replace("[ X ]", "[   ]"));
+				}
+				Toast.makeText(ArchivedToDos.this, "Click position "+position +" ", Toast.LENGTH_SHORT).show();	
+				adapter.notifyDataSetChanged();
+				mod2.save();
+			}
+		});
 	}
 }
